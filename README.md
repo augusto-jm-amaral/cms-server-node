@@ -1,5 +1,7 @@
 # CMS Server in Node.js
 
+![Completion: 0%](https://img.shields.io/badge/completion-0%25-green.svg)
+
 > A Node.js project
 
 > Without using cms framework
