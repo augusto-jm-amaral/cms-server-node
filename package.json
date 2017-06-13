@@ -1,0 +1,23 @@
+{
+  "name": "cms",
+  "version": "1.0.0",
+  "description": "CMS in Node.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Augusto José",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "express-validator": "^3.2.0",
+    "jwt-simple": "^0.5.1",
+    "leveldown": "^1.7.2",
+    "levelup": "^1.3.8",
+    "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "shortid": "^2.2.8"
+  }
+}
