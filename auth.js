@@ -21,7 +21,7 @@ module.exports = () => {
     var user = UserModel.getUserById(payload._id) || null;
 
     if (user) {
-      return done(null, {id: user._id});
+      return done(null, {_id: user._id});
     } else {
       return done(new Error("User not found"), null);
     }

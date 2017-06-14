@@ -38,6 +38,12 @@ describe('Login', () => {
     })
   })
 
+  after((done) => {
+    db.put('users', JSON.stringify([]), (err) => {
+      done()
+    })
+  })
+
   describe('/users/login POST', () => {
     it('Get a token', (done) => {
 

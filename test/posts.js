@@ -20,8 +20,27 @@ describe('Posts', () => {
     {_id: 3, title: 'Post3', body: 'Lorem ipsum..', path: '/news/3' }
   ]
 
+  let user = {
+    _id: '123456',
+    name: 'Augusto',
+    email: 'augusto@email.com',
+    password: '123456'
+  }
+
+  before((done) => {
+    db.put('users', JSON.stringify([user]), err => done())
+  })
+
   beforeEach((done) => {
     db.put('posts', JSON.stringify(posts), err => done())
+  })
+
+  after((done) => {
+    db.put('posts', JSON.stringify([]), (err) => {
+      db.put('users', JSON.stringify([]), (err) => {
+        done()
+      })
+    })
   })
 
   describe('/posts GET', () => {
@@ -53,26 +72,6 @@ describe('Posts', () => {
         done()
       })
 
-    })
-  })
-
-  describe('/posts?path=:_path GET', () => {
-    it('Get a post using path', (done) => {
-
-      let post = posts[3]
-      
-      chai.request(server)
-      .get('/posts?path=' + post.path)
-      .end((err, res) => {
-        expect(res).to.have.status(200)
-        expect(res.body).to.have.property('_id', post._id)
-        expect(res.body).to.have.property('title', post.title)
-        expect(res.body).to.have.property('body', post.body)
-        expect(res.body).to.have.property('path', post.path)
-        done()
-      })
-
-      done()
     })
   })
   
@@ -115,7 +114,7 @@ describe('Posts', () => {
   })
 
   describe('/posts/:_id DELETE', () => {
-    it('Get a post using path', (done) => {
+    it('Delete post using _id', (done) => {
       
       let post = posts[2]
 
@@ -130,6 +129,22 @@ describe('Posts', () => {
       })
     })
   })
+
+  describe('/:_path GET', () => {
+    it('Get a post using path', (done) => {
+      
+      let post = posts[2]
+
+      chai.request(server)
+      .get(post.path)
+      .end((err, res) => {
+        expect(res).to.have.status(200)
+        expect(res.body).to.have.property('title', post.title)
+        done()
+      })
+    })
+  })
+
 })
 
 
