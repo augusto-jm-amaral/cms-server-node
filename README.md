@@ -15,6 +15,9 @@ npm install
 # serve with hot reload at localhost:5000
 npm run dev
 
+# run tests
+npm run test
+
 # run production mode
 npm start
 ```
