@@ -31,13 +31,13 @@ npm start
 # Get post using id
 /posts/:_id GET
 
-# Create a post
+# Create a post (Auth)
 /posts POST
 
-# Update a post
+# Update a post (Auth)
 /posts/:_id PUT
 
-# Delete post
+# Delete post (Auth)
 /posts/:_id DELETE
 
 
