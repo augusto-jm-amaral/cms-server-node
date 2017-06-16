@@ -70,3 +70,10 @@ npm start
     password: '123456'
 }
 ```
+
+### Authentication 
+
+``` bash
+# Header
+Authorization: JWT token 
+```
