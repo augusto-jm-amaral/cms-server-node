@@ -8,6 +8,8 @@ const chai      = require('chai'),
       chaiHttp  = require('chai-http'),
       db        = require('./../db.js'),
       server    = require('./../index.js'),
+      jwt       = require('jwt-simple'),
+      cfg       = require('./../config.js'),
       expect    = chai.expect
 
 chai.use(chaiHttp)
@@ -26,6 +28,12 @@ describe('Posts', () => {
     email: 'augusto@email.com',
     password: '123456'
   }
+
+  let payload = {
+    _id: user._id
+  }
+
+  let token = jwt.encode(payload, cfg.jwtSecret)
 
   before((done) => {
     db.put('users', JSON.stringify([user]), err => done())
@@ -86,11 +94,29 @@ describe('Posts', () => {
 
       chai.request(server)
       .post('/posts')
+      .set('Authorization',`JWT ${token}`)
       .send(post)
       .end((err, res) => {
         expect(res).to.have.status(202)
         expect(res.body).to.have.property('_id')
         expect(res.body).to.have.property('title', post.title)
+        done()
+      })
+    })
+
+    it('Create a post without Authorization header', (done) => {
+
+      let post = { 
+        title: 'Create A Post', 
+        body: 'Lorem ipsum...', 
+        path: '/news/newpost'
+      }
+
+      chai.request(server)
+      .post('/posts')
+      .send(post)
+      .end((err, res) => {
+        expect(res).to.have.status(401)
         done()
       })
     })
@@ -104,10 +130,25 @@ describe('Posts', () => {
 
       chai.request(server)
       .put('/posts/' + post._id)
+      .set('Authorization',`JWT ${token}`)
       .send(post)
       .end((err, res) => {
         expect(res).to.have.status(200)
         expect(res.body).to.have.property('title', post.title)
+        done()
+      })
+    })
+
+    it('Update a post without Authorization header', (done) => {
+      
+      let post = posts[2]
+      post.title = 'Change title!'
+
+      chai.request(server)
+      .put('/posts/' + post._id)
+      .send(post)
+      .end((err, res) => {
+        expect(res).to.have.status(401)
         done()
       })
     })
@@ -120,12 +161,25 @@ describe('Posts', () => {
 
       chai.request(server)
       .delete('/posts/' + post._id)
+      .set('Authorization',`JWT ${token}`)
       .end((err, res) => {
         expect(res).to.have.status(200)
         db.get('posts', (err, value) => {
           expect(JSON.parse(value)).to.have.lengthOf(2)
           done()
         })
+      })
+    })
+
+    it('Delete post using _id without Authorization header', (done) => {
+      
+      let post = posts[2]
+
+      chai.request(server)
+      .delete('/posts/' + post._id)
+      .end((err, res) => {
+        expect(res).to.have.status(401)
+        done()
       })
     })
   })

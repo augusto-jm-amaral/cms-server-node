@@ -64,7 +64,7 @@ describe('Login', () => {
       })
     })
 
-    it('login user password incorrect', (done) => {
+    it('Login user password incorrect', (done) => {
 
       chai.request(server)
       .post('/users/login')
@@ -76,7 +76,7 @@ describe('Login', () => {
       })
     })
 
-    it('login no parameters', (done) => {
+    it('Login no parameters', (done) => {
 
       chai.request(server)
       .post('/users/login')
