@@ -1,6 +1,6 @@
 # CMS Server in Node.js
 
-![Completion: 90%](https://img.shields.io/badge/completion-90%25-green.svg)
+![Completion: 100%](https://img.shields.io/badge/completion-100%25-green.svg)
 
 > A Node.js project
 
