@@ -7,7 +7,7 @@ const jwt = require('jwt-simple'),
 
 function UserController (userModel) {
   this.userModel = userModel
-  
+
 }
 
 UserController.prototype.create = function (req, res) {
@@ -17,7 +17,7 @@ UserController.prototype.create = function (req, res) {
   req.checkBody('name').notEmpty()
   req.checkBody('email').notEmpty()
   req.checkBody('password').notEmpty()
-  
+
   req.getValidationResult().then((result) => {
 
     if(!result.isEmpty()) {
@@ -31,9 +31,9 @@ UserController.prototype.create = function (req, res) {
         res.status(202).end()
       })
       .catch((err) => {
-        if(err === true)
+        if(err === true){
           res.status(412).end()
-        else
+        }else
           res.status(500).end()
       })
 
@@ -77,4 +77,4 @@ UserController.prototype.authenticate = function(req, res) {
 
 module.exports = (userModel) => {
   return new UserController(userModel)
-} 
+}
